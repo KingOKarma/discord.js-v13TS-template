@@ -1,0 +1,7 @@
+# Make sure the id(s) are seperated by commas (,)
+owners: ['OWNERS_ID(S)']
+
+prefix: 'PREFIX'
+
+# Token Example: NzU4Mzg1STh3MgS5DHCsHsVY.X2uSag.71AkvJZaVe3R-s5Ay3GatchEdGe
+token: 'BOT_TOKEN'
