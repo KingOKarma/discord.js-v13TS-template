@@ -4,7 +4,7 @@ import Interactions from "../../interfaces/interactions";
 import { deleteButton } from "../../globals";
 
 export const interations: Interactions = {
-    name: "helpbackpage",
+    name: "helpfirstpage",
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
     run: async (client, interaction) => {
         const msg = interaction.message as Message;
@@ -12,9 +12,7 @@ export const interations: Interactions = {
 
         if (component === null) return;
 
-        const { label } = new MessageButton(component);
-
-        const commands = commandPaginate(client.commands.array(), 4, Number(label));
+        const commands = commandPaginate(client.commands.array(), 4, 1);
         const colour = msg.guild?.me?.displayColor as ColorResolvable;
 
         let finalPage = 1;
@@ -33,7 +31,7 @@ export const interations: Interactions = {
             .setTitle(`${client.user?.tag}'s ${client.commands.size} Commands`)
             .setTimestamp()
             .setColor(colour)
-            .setFooter(`Page ${label} of ${finalPage} pages`);
+            .setFooter(`Page 1 of ${finalPage} pages`);
         if (commands.length === 0) {
             embed.addField("Empty", "> This page is emtpy!");
         } else {
@@ -65,18 +63,16 @@ export const interations: Interactions = {
         const left = new MessageButton()
             .setCustomId("helpbackpage")
             .setEmoji("◀️")
-            .setLabel((Number(label) - 1).toString())
+            .setLabel("0")
             .setStyle("PRIMARY");
-
-        if (Number(label) - 1 === 0) left.setDisabled(true);
-
+        left.setDisabled(true);
 
         const right = new MessageButton()
             .setCustomId("helpforwardpage")
             .setEmoji("▶️")
-            .setLabel((Number(label) + 1).toString())
+            .setLabel("2")
             .setStyle("PRIMARY");
-        if (Number(label) === finalPage) right.setDisabled(true);
+        if (finalPage === 2) right.setDisabled(true);
 
 
         if (commands.length === 0) {

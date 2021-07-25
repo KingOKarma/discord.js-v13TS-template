@@ -51,9 +51,21 @@ export const interations: Interactions = {
             });
         }
 
+        const first = new MessageButton()
+            .setCustomId("helpfirstpage")
+            .setEmoji("⏮️")
+            .setLabel("1")
+            .setStyle("SECONDARY");
+
+        const last = new MessageButton()
+            .setCustomId("helplastpage")
+            .setEmoji("⏭️")
+            .setLabel(`${finalPage}`)
+            .setStyle("SECONDARY");
+
         const left = new MessageButton()
             .setCustomId("helpbackpage")
-            .setEmoji("⬅️")
+            .setEmoji("◀️")
             .setLabel((Number(label) - 1).toString())
             .setStyle("PRIMARY");
 
@@ -62,7 +74,7 @@ export const interations: Interactions = {
 
         const right = new MessageButton()
             .setCustomId("helpforwardpage")
-            .setEmoji("➡️")
+            .setEmoji("▶️")
             .setLabel((Number(label) + 1).toString())
             .setStyle("PRIMARY");
 
@@ -74,8 +86,9 @@ export const interations: Interactions = {
 
         const button = new MessageActionRow()
             .addComponents(
-                left, right, deleteButton
+                first, left, right, last, deleteButton
             );
+
         await interaction.update({ components: [button], embeds: [embed] });
     }
 };

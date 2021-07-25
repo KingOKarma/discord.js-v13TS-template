@@ -69,9 +69,21 @@ export const command: Command = {
                 }
 
 
+                const first = new MessageButton()
+                    .setCustomId("helpfirstpage")
+                    .setEmoji("⏮️")
+                    .setLabel("1")
+                    .setStyle("SECONDARY");
+
+                const last = new MessageButton()
+                    .setCustomId("helplastpage")
+                    .setEmoji("⏭️")
+                    .setLabel(`${finalPage}`)
+                    .setStyle("SECONDARY");
+
                 const left = new MessageButton()
                     .setCustomId("helpbackpage")
-                    .setEmoji("⬅️")
+                    .setEmoji("◀️")
                     .setLabel((Number(page) - 1).toString())
                     .setStyle("PRIMARY");
 
@@ -80,7 +92,7 @@ export const command: Command = {
 
                 const right = new MessageButton()
                     .setCustomId("helpforwardpage")
-                    .setEmoji("➡️")
+                    .setEmoji("▶️")
                     .setLabel((Number(page) + 1).toString())
                     .setStyle("PRIMARY");
                 if (Number(page) === finalPage) right.setDisabled(true);
@@ -97,7 +109,7 @@ export const command: Command = {
 
                 const button = new MessageActionRow()
                     .addComponents(
-                        left, right, deleteButton
+                        first, left, right, last, deleteButton
                     );
 
                 const otherButton = new MessageActionRow()
