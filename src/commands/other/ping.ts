@@ -4,6 +4,7 @@ export const command: Command = {
     // Note aliases are optional
     aliases: ["p"],
     descirption: "Omega Test!",
+    example: ["!ping"],
     group: "other",
     name: "ping",
     // eslint-disable-next-line @typescript-eslint/no-unused-vars

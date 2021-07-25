@@ -7,6 +7,7 @@ type Run = (client: Client, message: Message, args: string[]) => void;
 export default interface Command {
     name: string;
     descirption: string;
+    example: string[];
     aliases?: string[];
     group: string;
     run: Run;
