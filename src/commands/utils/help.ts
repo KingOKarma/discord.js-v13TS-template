@@ -2,6 +2,7 @@
 import { ColorResolvable, MessageActionRow, MessageButton, MessageEmbed } from "discord.js";
 import { capitalize, commandPaginate } from "../../utils/utils";
 import { Command } from "../../interfaces";
+import { deleteButton } from "../../globals";
 
 type HelpType = "page" | "cmd";
 
@@ -34,11 +35,23 @@ export const command: Command = {
                 const commands = commandPaginate(client.commands.array(), 4, Number(page));
                 const colour = msg.guild?.me?.displayColor as ColorResolvable;
 
+                let finalPage = 1;
+                let notMax = false;
+                while (!notMax) {
+                    const cmds = commandPaginate(client.commands.array(), 4, finalPage);
+                    if (cmds.length !== 0) {
+                        finalPage++;
+                    } else {
+                        notMax = true;
+                    }
+                }
+                finalPage -= 1;
+
                 const embed = new MessageEmbed()
-                    .setTitle(`${client.user?.tag}'s Commands`)
+                    .setTitle(`${client.user?.tag}'s ${client.commands.size} Commands`)
                     .setTimestamp()
                     .setColor(colour)
-                    .setFooter(`Page ${page}`);
+                    .setFooter(`Page ${page} of ${finalPage} pages`);
                 if (commands.length === 0) {
                     embed.addField("Empty", "> This page is emtpy!");
                 } else {
@@ -57,7 +70,7 @@ export const command: Command = {
 
 
                 const left = new MessageButton()
-                    .setCustomId("HelpBackPage")
+                    .setCustomId("helpbackpage")
                     .setEmoji("⬅️")
                     .setLabel((Number(page) - 1).toString())
                     .setStyle("PRIMARY");
@@ -66,14 +79,12 @@ export const command: Command = {
 
 
                 const right = new MessageButton()
-                    .setCustomId("HelpForwardPage")
+                    .setCustomId("helpforwardpage")
                     .setEmoji("➡️")
                     .setLabel((Number(page) + 1).toString())
                     .setStyle("PRIMARY");
-                const deleteButton = new MessageButton()
-                    .setCustomId("delete")
-                    .setLabel("❌")
-                    .setStyle("DANGER");
+                if (Number(page) === finalPage) right.setDisabled(true);
+
 
                 if (commands.length === 0) {
                     right.setDisabled(true);
@@ -88,6 +99,17 @@ export const command: Command = {
                     .addComponents(
                         left, right, deleteButton
                     );
+
+                const otherButton = new MessageActionRow()
+                    .addComponents(
+                        deleteButton
+                    );
+
+                if (Number(page) > finalPage) {
+                    return msg.reply({ components: [otherButton], embeds: [embed] }).then(() => {
+                        if (msg.deletable) return msg.delete();
+                    });
+                }
 
                 return msg.reply({ components: [button], embeds: [embed] }).then(() => {
                     if (msg.deletable) return msg.delete();
@@ -141,12 +163,6 @@ export const command: Command = {
                     + `${aliases}`
 
                 );
-
-                const deleteButton = new MessageButton()
-                    .setCustomId("delete")
-                    .setLabel("❌")
-                    .setStyle("DANGER");
-
 
                 const button = new MessageActionRow()
                     .addComponents(
