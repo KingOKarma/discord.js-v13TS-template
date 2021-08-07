@@ -1,14 +1,14 @@
-import { Guild, GuildChannel, GuildMember, Message, Role, Snowflake, ThreadChannel } from "discord.js";
+import { Guild, GuildChannel, GuildMember, Message, Role, ThreadChannel } from "discord.js";
 import { Command } from "../interfaces";
 
 // Added getRole function in here incase you don't like getMember (;
 export function getRole(rid: string, guild: Guild): Role | undefined {
-    let ridParsed = rid as Snowflake;
+    let ridParsed = rid;
     // Check if a role was tagged or not. If the role was tagged remove the
     // Tag from rid.
     if (rid.startsWith("<@&") && rid.endsWith(">")) {
         const re = new RegExp("[<@&>]", "g");
-        ridParsed = rid.replace(re, "") as Snowflake;
+        ridParsed = rid.replace(re, "");
     }
     // Try recovering the role and report if it was successful or not.
     try {
@@ -20,12 +20,12 @@ export function getRole(rid: string, guild: Guild): Role | undefined {
 }
 
 export async function getMember(uid: string, guild: Guild): Promise<GuildMember | null> {
-    let uidParsed = uid as Snowflake;
+    let uidParsed = uid;
     // Check if a member was tagged or not. If the member was tagged remove the
     // Tag from uid.
     if (uid.startsWith("<@") && uid.endsWith(">")) {
         const re = new RegExp("[<@!>]", "g");
-        uidParsed = uid.replace(re, "") as Snowflake;
+        uidParsed = uid.replace(re, "");
     }
     // Try recovering the role and report if it was successful or not.
     try {
@@ -37,12 +37,12 @@ export async function getMember(uid: string, guild: Guild): Promise<GuildMember 
 }
 
 export function getChannel(cid: string, guild: Guild): GuildChannel | ThreadChannel | undefined {
-    let cidParsed = cid as Snowflake;
+    let cidParsed = cid;
     // Check if a member was tagged or not. If the member was tagged remove the
     // Tag from uid.
     if (cid.startsWith("<#") && cid.endsWith(">")) {
         const re = new RegExp("[<#>]", "g");
-        cidParsed = cid.replace(re, "") as Snowflake;
+        cidParsed = cid.replace(re, "");
     }
     // Try recovering the role and report if it was successful or not.
     try {

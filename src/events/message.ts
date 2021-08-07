@@ -29,6 +29,13 @@ export const event: Event = {
                 }
             }
 
+            if (command.devonly === true) {
+                if (CONFIG.owners.some((d) => d === msg.author.id)) {
+                    shouldrun = false;
+                    reason = "You must be a deveoper to run this command!";
+                }
+            }
+
             if (!shouldrun) return msg.reply(reason);
 
             command.run(client, msg, args);

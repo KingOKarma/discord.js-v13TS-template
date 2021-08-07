@@ -3,7 +3,7 @@ import { Command } from "../../interfaces";
 export const command: Command = {
     // Note aliases are optional
     aliases: ["p"],
-    descirption: "Omega Test!",
+    description: "Omega Test!",
     example: ["!ping"],
     group: "other",
     name: "ping",

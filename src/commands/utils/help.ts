@@ -8,7 +8,7 @@ type HelpType = "page" | "cmd";
 
 export const command: Command = {
     aliases: ["h"],
-    descirption: "Get a list of all my commmands!",
+    description: "Get a list of all my commmands!",
     example: ["!help <page>", "!help <commandName>"],
     group: "utils",
     name: "help",
@@ -32,13 +32,13 @@ export const command: Command = {
         switch (pageOrCmd) {
             case "page": {
 
-                const commands = commandPaginate(client.commands.array(), 4, Number(page));
+                const commands = commandPaginate([...client.commands.values()], 4, Number(page));
                 const colour = msg.guild?.me?.displayColor as ColorResolvable;
 
                 let finalPage = 1;
                 let notMax = false;
                 while (!notMax) {
-                    const cmds = commandPaginate(client.commands.array(), 4, finalPage);
+                    const cmds = commandPaginate([...client.commands.values()], 4, finalPage);
                     if (cmds.length !== 0) {
                         finalPage++;
                     } else {
@@ -61,7 +61,7 @@ export const command: Command = {
 
                         if (cmd.aliases !== undefined) aliases = `> **Aliases:** ${cmd.aliases.map((a) => `\`${a}\``)}`;
 
-                        embed.addField(capitalize(cmd.name), `${`> **Description:** ${cmd.descirption} \n`
+                        embed.addField(capitalize(cmd.name), `${`> **Description:** ${cmd.description} \n`
                             + `> **Group:** ${capitalize(cmd.group)}\n`
                             + `> **Example usage:** ${cmd.example.map((a) => `\`${a}\``).join(", ")}\n`}${aliases}`);
 
@@ -134,7 +134,7 @@ export const command: Command = {
                 const colour = msg.guild?.me?.displayColor as ColorResolvable;
 
 
-                const cmd = client.commands.array().find((c) => {
+                const cmd = [...client.commands.values()].find((c) => {
                     if (c.aliases !== undefined) {
                         const alias = c.aliases.findIndex((a) => a === args[0]);
 
@@ -169,7 +169,7 @@ export const command: Command = {
                 embed.setTimestamp();
                 embed.setColor(colour);
                 embed.setDescription(
-                    `> **Description:** ${cmd.descirption}\n> \n`
+                    `> **Description:** ${cmd.description}\n> \n`
                     + `> **Group:** ${capitalize(cmd.group)}\n> \n`
                     + `> **Example Usage:** ${cmd.example.map((a) => `\`${a}\``).join(", ")}`
                     + `${aliases}`

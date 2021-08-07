@@ -1,9 +1,9 @@
 import { ColorResolvable, Message, MessageActionRow, MessageButton, MessageEmbed } from "discord.js";
 import { capitalize, commandPaginate } from "../../utils/utils";
-import Interactions from "../../interfaces/interactions";
+import Buttons from "../../interfaces/buttons";
 import { deleteButton } from "../../globals";
 
-export const interations: Interactions = {
+export const buttons: Buttons = {
     name: "helpforwardpage",
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
     run: async (client, interaction) => {
@@ -14,13 +14,13 @@ export const interations: Interactions = {
 
         const { label } = new MessageButton(component);
 
-        const commands = commandPaginate(client.commands.array(), 4, Number(label));
+        const commands = commandPaginate([...client.commands.values()], 4, Number(label));
         const colour = msg.guild?.me?.displayColor as ColorResolvable;
 
         let finalPage = 1;
         let notMax = false;
         while (!notMax) {
-            const cmds = commandPaginate(client.commands.array(), 4, finalPage);
+            const cmds = commandPaginate([...client.commands.values()], 4, finalPage);
             if (cmds.length !== 0) {
                 finalPage++;
             } else {
@@ -44,7 +44,7 @@ export const interations: Interactions = {
 
                 if (cmd.aliases !== undefined) aliases = `> **Aliases:** ${cmd.aliases.map((a) => `\`${a}\``)}`;
 
-                embed.addField(capitalize(cmd.name), `${`> **Description:** ${cmd.descirption} \n`
+                embed.addField(capitalize(cmd.name), `${`> **Description:** ${cmd.description} \n`
                     + `> **Group:** ${capitalize(cmd.group)}\n`
                     + `> **Example usage:** ${cmd.example.map((a) => `\`${a}\``).join(", ")}\n`}${aliases}`);
 

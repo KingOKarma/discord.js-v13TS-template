@@ -4,8 +4,7 @@ A template for discord.js v13 (currently master branch) written in typescript
 ---
 ### Setup
 
-Ensure nodejs v14 is installed on your system
-
+Requires nodejs v16 or above
 
 - Rename `example.config.yml` to `config.yml` and put in the parameters
 - You may do the same with `example.storage.yml` but that's just there for example on if you wanted stored manipulatable data during runtime.

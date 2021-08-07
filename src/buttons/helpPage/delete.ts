@@ -1,7 +1,7 @@
-import Interactions from "../../interfaces/interactions";
+import Buttons from "../../interfaces/buttons";
 import { Message } from "discord.js";
 
-export const interations: Interactions = {
+export const buttons: Buttons = {
     name: "delete",
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
     run: async(client, interaction) => {

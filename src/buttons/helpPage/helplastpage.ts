@@ -1,9 +1,9 @@
 import { ColorResolvable, Message, MessageActionRow, MessageButton, MessageEmbed } from "discord.js";
 import { capitalize, commandPaginate } from "../../utils/utils";
-import Interactions from "../../interfaces/interactions";
+import Buttons from "../../interfaces/buttons";
 import { deleteButton } from "../../globals";
 
-export const interations: Interactions = {
+export const buttons: Buttons = {
     name: "helplastpage",
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
     run: async (client, interaction) => {
@@ -17,7 +17,7 @@ export const interations: Interactions = {
         let finalPage = 1;
         let notMax = false;
         while (!notMax) {
-            const cmds = commandPaginate(client.commands.array(), 4, finalPage);
+            const cmds = commandPaginate([...client.commands.values()], 4, finalPage);
             if (cmds.length !== 0) {
                 finalPage++;
             } else {
@@ -26,7 +26,7 @@ export const interations: Interactions = {
         }
         finalPage -= 1;
 
-        const commands = commandPaginate(client.commands.array(), 4, finalPage);
+        const commands = commandPaginate([...client.commands.values()], 4, finalPage);
         const embed = new MessageEmbed()
             .setTitle(`${client.user?.tag}'s ${client.commands.size} Commands`)
             .setTimestamp()
@@ -41,7 +41,7 @@ export const interations: Interactions = {
 
                 if (cmd.aliases !== undefined) aliases = `> **Aliases:** ${cmd.aliases.map((a) => `\`${a}\``)}`;
 
-                embed.addField(capitalize(cmd.name), `${`> **Description:** ${cmd.descirption} \n`
+                embed.addField(capitalize(cmd.name), `${`> **Description:** ${cmd.description} \n`
                     + `> **Group:** ${capitalize(cmd.group)}\n`
                     + `> **Example usage:** ${cmd.example.map((a) => `\`${a}\``).join(", ")}\n`}${aliases}`);
 

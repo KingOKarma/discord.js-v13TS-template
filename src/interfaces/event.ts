@@ -1,4 +1,4 @@
-import Client from "../client";
+import Client from "../client/client";
 import { ClientEvents } from "discord.js";
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any

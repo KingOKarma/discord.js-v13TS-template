@@ -1,10 +1,10 @@
 import { ColorResolvable, Message, MessageActionRow, MessageButton, MessageEmbed } from "discord.js";
 import { capitalize, commandPaginate } from "../../utils/utils";
-import Interactions from "../../interfaces/interactions";
+import Buttons from "../../interfaces/buttons";
 import { deleteButton } from "../../globals";
 
-export const interations: Interactions = {
-    name: "helpfirstpage",
+export const buttons: Buttons = {
+    name: "helpbackpage",
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
     run: async (client, interaction) => {
         const msg = interaction.message as Message;
@@ -12,13 +12,15 @@ export const interations: Interactions = {
 
         if (component === null) return;
 
-        const commands = commandPaginate(client.commands.array(), 4, 1);
+        const { label } = new MessageButton(component);
+
+        const commands = commandPaginate([...client.commands.values()], 4, Number(label));
         const colour = msg.guild?.me?.displayColor as ColorResolvable;
 
         let finalPage = 1;
         let notMax = false;
         while (!notMax) {
-            const cmds = commandPaginate(client.commands.array(), 4, finalPage);
+            const cmds = commandPaginate([...client.commands.values()], 4, finalPage);
             if (cmds.length !== 0) {
                 finalPage++;
             } else {
@@ -31,7 +33,7 @@ export const interations: Interactions = {
             .setTitle(`${client.user?.tag}'s ${client.commands.size} Commands`)
             .setTimestamp()
             .setColor(colour)
-            .setFooter(`Page 1 of ${finalPage} pages`);
+            .setFooter(`Page ${label} of ${finalPage} pages`);
         if (commands.length === 0) {
             embed.addField("Empty", "> This page is emtpy!");
         } else {
@@ -41,7 +43,7 @@ export const interations: Interactions = {
 
                 if (cmd.aliases !== undefined) aliases = `> **Aliases:** ${cmd.aliases.map((a) => `\`${a}\``)}`;
 
-                embed.addField(capitalize(cmd.name), `${`> **Description:** ${cmd.descirption} \n`
+                embed.addField(capitalize(cmd.name), `${`> **Description:** ${cmd.description} \n`
                     + `> **Group:** ${capitalize(cmd.group)}\n`
                     + `> **Example usage:** ${cmd.example.map((a) => `\`${a}\``).join(", ")}\n`}${aliases}`);
 
@@ -63,16 +65,18 @@ export const interations: Interactions = {
         const left = new MessageButton()
             .setCustomId("helpbackpage")
             .setEmoji("◀️")
-            .setLabel("0")
+            .setLabel((Number(label) - 1).toString())
             .setStyle("PRIMARY");
-        left.setDisabled(true);
+
+        if (Number(label) - 1 === 0) left.setDisabled(true);
+
 
         const right = new MessageButton()
             .setCustomId("helpforwardpage")
             .setEmoji("▶️")
-            .setLabel("2")
+            .setLabel((Number(label) + 1).toString())
             .setStyle("PRIMARY");
-        if (finalPage === 2) right.setDisabled(true);
+        if (Number(label) === finalPage) right.setDisabled(true);
 
 
         if (commands.length === 0) {
