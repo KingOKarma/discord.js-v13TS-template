@@ -16,6 +16,8 @@ export const slashCommand: SlashCommands = {
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
     run: async (client, interaction) => {
 
-        return interaction.reply({ content: interaction.options.data[0].value?.toLocaleString() } );
+        const args = interaction.options.getString("saystring");
+
+        return interaction.reply({ content: args } );
     }
 };

@@ -71,7 +71,6 @@ class ExtendedClient extends Client {
             for (const file of slashCommmands) {
                 // eslint-disable-next-line @typescript-eslint/no-var-requires
                 const { slashCommand } = require(`${slashPath}/${dir}/${file}`);
-                await this.application?.commands.create(slashCommand);
                 this.slashCommands.set(slashCommand.name, slashCommand);
 
             }

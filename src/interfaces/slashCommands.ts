@@ -7,8 +7,11 @@ type Run = (client: Client, interaction: CommandInteraction) => void;
 export interface SlashCommands {
     name: string;
     description: string;
+    dmOnly?: boolean;
+    guildOnly?: boolean;
     options?: ApplicationCommandOptionData[];
     defaultPermission?: boolean;
+    devonly?: boolean;
     run: Run;
 
 }

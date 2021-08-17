@@ -12,8 +12,17 @@ export const event: Event = {
 
         if (!client.application?.owner) await client.application?.fetch();
 
+
         // eslint-disable-next-line @typescript-eslint/no-unused-vars
-        const commands = client.slashCommands.map(({ run, ...data }) => data);
+        const commands = client.slashCommands.map(({ run, devonly, ...data }) => data);
+
+
+        try {
+            await client.application?.commands.set(commands);
+
+        } catch (error) {
+            console.log(`There was an error registering a slash command \n${error}`);
+        }
         console.log(commands);
 
         const rest = new REST({ version: "9" }).setToken(CONFIG.token);
