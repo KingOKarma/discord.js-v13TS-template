@@ -11,7 +11,7 @@ export interface SlashCommands {
     guildOnly?: boolean;
     options?: ApplicationCommandOptionData[];
     defaultPermission?: boolean;
-    devonly?: boolean;
+    devOnly?: boolean;
     run: Run;
 
 }

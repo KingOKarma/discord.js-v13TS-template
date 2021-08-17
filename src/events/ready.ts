@@ -14,7 +14,7 @@ export const event: Event = {
 
 
         // eslint-disable-next-line @typescript-eslint/no-unused-vars
-        const commands = client.slashCommands.map(({ run, devonly, ...data }) => data);
+        const commands = client.slashCommands.map(({ run, devOnly, guildOnly, dmOnly, ...data }) => data);
 
 
         try {

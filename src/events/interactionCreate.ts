@@ -17,7 +17,7 @@ export const event: Event = {
             const slashCommand = client.slashCommands.get(interaction.commandName);
             if (slashCommand) {
 
-                if (slashCommand.devonly ?? false) {
+                if (slashCommand.devOnly ?? false) {
                     if (!CONFIG.owners.includes(interaction.user.id)) {
                         return interaction.reply({ content: "This Command may only be used by the bot's developers!", ephemeral: true } );
                     }

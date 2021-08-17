@@ -5,7 +5,7 @@ export const slashCommand: SlashCommands = {
     // Note aliases are optional
     defaultPermission: false,
     description: "Interact with the roles of a server",
-    devonly: true,
+    devOnly: true,
     name: "dev",
     options: [
         {
