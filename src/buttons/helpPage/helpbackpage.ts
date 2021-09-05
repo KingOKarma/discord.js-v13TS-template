@@ -1,6 +1,7 @@
 import { ColorResolvable, Message, MessageActionRow, MessageButton, MessageEmbed } from "discord.js";
-import { capitalize, commandPaginate } from "../../utils/utils";
 import Buttons from "../../interfaces/buttons";
+import { arrayPage } from "../../utils/arrayPage";
+import { capitalize } from "../../utils/capitalize";
 import { deleteButton } from "../../globals";
 
 export const buttons: Buttons = {
@@ -14,13 +15,13 @@ export const buttons: Buttons = {
 
         const { label } = new MessageButton(component);
 
-        const commands = commandPaginate([...client.commands.values()], 4, Number(label));
+        const commands = arrayPage([...client.commands.values()], 4, Number(label));
         const colour = msg.guild?.me?.displayColor as ColorResolvable;
 
         let finalPage = 1;
         let notMax = false;
         while (!notMax) {
-            const cmds = commandPaginate([...client.commands.values()], 4, finalPage);
+            const cmds = arrayPage([...client.commands.values()], 4, finalPage);
             if (cmds.length !== 0) {
                 finalPage++;
             } else {
