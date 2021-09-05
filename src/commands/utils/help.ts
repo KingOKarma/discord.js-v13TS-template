@@ -1,7 +1,8 @@
 /* eslint-disable @typescript-eslint/restrict-plus-operands */
 import { ColorResolvable, MessageActionRow, MessageButton, MessageEmbed } from "discord.js";
-import { capitalize, commandPaginate } from "../../utils/utils";
 import { Command } from "../../interfaces";
+import { arrayPage } from "../../utils/arrayPage";
+import { capitalize } from "../../utils/capitalize";
 import { deleteButton } from "../../globals";
 
 type HelpType = "page" | "cmd";
@@ -32,13 +33,13 @@ export const command: Command = {
         switch (pageOrCmd) {
             case "page": {
 
-                const commands = commandPaginate([...client.commands.values()], 4, Number(page));
+                const commands = arrayPage([...client.commands.values()], 4, Number(page));
                 const colour = msg.guild?.me?.displayColor as ColorResolvable;
 
                 let finalPage = 1;
                 let notMax = false;
                 while (!notMax) {
-                    const cmds = commandPaginate([...client.commands.values()], 4, finalPage);
+                    const cmds = arrayPage([...client.commands.values()], 4, finalPage);
                     if (cmds.length !== 0) {
                         finalPage++;
                     } else {

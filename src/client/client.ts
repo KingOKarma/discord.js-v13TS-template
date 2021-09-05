@@ -19,7 +19,6 @@ class ExtendedClient extends Client {
 
         /* Commands */
         const commandPath = path.join(__dirname, "..", "commands");
-        console.log(commandPath);
         fs.readdirSync(commandPath).forEach(async (dir) => {
             const cmds = readdirSync(`${commandPath}/${dir}`).filter((file) => file.endsWith(".js"));
 
@@ -50,7 +49,6 @@ class ExtendedClient extends Client {
 
         /* Buttons */
         const buttonsPath = path.join(__dirname, "..", "buttons");
-        console.log(buttonsPath);
         fs.readdirSync(buttonsPath).forEach((dir) => {
             const buttonFiles = readdirSync(`${buttonsPath}/${dir}`).filter((file) => file.endsWith(".js"));
 
@@ -64,7 +62,6 @@ class ExtendedClient extends Client {
 
         /* Slash Commands */
         const slashPath = path.join(__dirname, "..", "slashCommands");
-        console.log(slashPath);
         fs.readdirSync(slashPath).forEach(async (dir) => {
             const slashCommmands = readdirSync(`${slashPath}/${dir}`).filter((file) => file.endsWith(".js"));
 
