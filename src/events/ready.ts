@@ -36,10 +36,22 @@ export const event: Event = {
             try {
                 console.log("Started refreshing application (/) commands");
 
-                await rest.put(
-                    Routes.applicationCommands(clientID),
-                    { body: commands }
-                );
+                if (CONFIG.devEnv.isDev) {
+                    await rest.put(
+                        Routes.applicationGuildCommands(clientID, CONFIG.devEnv.devServer),
+                        { body: commands }
+                    );
+                    console.log("Refreshing Commands in Development");
+
+                } else {
+                    await rest.put(
+                        Routes.applicationCommands(clientID),
+                        { body: commands }
+                    );
+                    console.log("Refreshing Commands in Production, This can take a while (Possibly up to an hour or longer)");
+
+                }
+
 
                 console.log("Sucessfully reloaded application (/) commands.");
             } catch (error) {

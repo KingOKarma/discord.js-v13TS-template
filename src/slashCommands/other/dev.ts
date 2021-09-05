@@ -15,7 +15,7 @@ export const slashCommand: SlashCommands = {
                     value: "deploy"
                 },
                 {
-                    name: "test",
+                    name: "adasdda",
                     value: "test"
                 },
                 {

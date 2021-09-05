@@ -1,3 +1,7 @@
+devEnv:
+  devServer: "SERVERID"
+  isDev: false
+
 # Make sure the id(s) are seperated by commas (,)
 owners: ['OWNERS_ID(S)']
 
