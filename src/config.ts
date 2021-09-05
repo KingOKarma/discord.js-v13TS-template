@@ -2,6 +2,11 @@ import { dump, load } from "js-yaml";
 import { CONFIG } from "./globals";
 import fs from "fs";
 
+export interface DevEnv {
+    devServer: string;
+    isDev: boolean;
+}
+
 /**
  * This represents the config.yml
  * @class Config
@@ -12,6 +17,8 @@ import fs from "fs";
 export default class Config {
     private static readonly _configLocation = "./config.yml";
 
+    public readonly devEnv: DevEnv;
+
     public readonly owners: string[];
 
     public readonly prefix: string;
@@ -19,6 +26,7 @@ export default class Config {
     public readonly token: string;
 
     private constructor() {
+        this.devEnv = { devServer: "", isDev: false };
         this.owners = [""];
         this.prefix = "";
         this.token = "";
