@@ -1,10 +1,10 @@
 import { Client, Guild } from "discord.js";
 
 /**
- * Used to add a role to an array
- * @param {string} guildID Guild's ID
- * @param {Client} client Client Instance
-* @returns string
+ * Used to get a guild using fetch
+ * @param {string} guildID The Guild's ID
+ * @param {Client} client the Client Instance
+*  @returns Client
  */
 export async function getGuild(guildID: string, client: Client): Promise<Guild | null> {
     try {

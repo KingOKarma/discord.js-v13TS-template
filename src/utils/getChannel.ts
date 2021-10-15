@@ -1,6 +1,14 @@
 import { Guild, GuildChannel, ThreadChannel } from "discord.js";
 
-export function getChannel(cid: string, guild: Guild): GuildChannel | ThreadChannel | undefined {
+/**
+ * Used to get a channel using fetch
+ * @param {string} cid The channel's ID
+ * @param {Guild} guild Guild Instance
+*  @returns GuildChannel | null
+ */
+export async function getChannel(cid: string | null, guild: Guild | null): Promise<GuildChannel | ThreadChannel | null> {
+    if (cid === null) return null;
+    if (guild === null) return null;
     let cidParsed = cid;
     // Check if a member was tagged or not. If the member was tagged remove the
     // Tag from uid.
@@ -10,9 +18,8 @@ export function getChannel(cid: string, guild: Guild): GuildChannel | ThreadChan
     }
     // Try recovering the role and report if it was successful or not.
     try {
-        return guild.channels.cache.get(cidParsed);
+        return await guild.channels.fetch(cidParsed);
     } catch (e) {
-        console.log(`Member not found because ${e}`);
-        return undefined;
+        return null;
     }
 }

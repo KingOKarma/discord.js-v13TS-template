@@ -1,4 +1,4 @@
-import { CONFIG } from "../globals";
+import { CONFIG, STRINGS } from "../globals";
 import { Event } from "../interfaces/index";
 import { REST } from "@discordjs/rest";
 import { Routes } from "discord-api-types/v9";
@@ -11,6 +11,7 @@ export const event: Event = {
     run: async (client) => {
         console.log(`${chalk.green("[INFO]")} ${client.user?.tag} is online!\n`);
 
+        console.log(STRINGS.info.ready);
         if (!client.application?.owner) await client.application?.fetch();
 
         if (client.application === null) {
