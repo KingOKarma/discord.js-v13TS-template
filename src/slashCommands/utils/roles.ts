@@ -76,8 +76,8 @@ export const slashCommand: SlashCommands = {
             }
 
             case "remove": {
-                return remove(intr, member, role);
 
+                return remove(intr, member, role);
             }
 
             default: {
