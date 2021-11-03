@@ -4,9 +4,9 @@ import { Command, Event } from "../interfaces/index";
 import fs, { readdirSync } from "fs";
 import Buttons from "../interfaces/buttons";
 import { CONFIG } from "../globals";
+import { Cooldowns } from "../interfaces/cooldown";
 import { SlashCommands } from "../interfaces/slashCommands";
 import path from "path";
-import { Cooldowns } from "../interfaces/cooldown";
 
 class ExtendedClient extends Client {
     public commands: Collection<string, Command> = new Collection();
@@ -78,14 +78,13 @@ class ExtendedClient extends Client {
 
     }
 
-    public async commandFailed(msg: Message | CommandInteraction): Promise<void | Message<boolean>> {
+    public async commandFailed(msg: Message | CommandInteraction): Promise<void | Message> {
         if (msg instanceof Message) {
             return msg.reply({ content: "There was an error when executing the command" });
 
-        } else {
-            return msg.reply({ content: "There was an error when executing the command", ephemeral: true });
-
         }
+        return msg.reply({ content: "There was an error when executing the command", ephemeral: true });
+
 
     }
 }
