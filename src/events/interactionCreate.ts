@@ -1,41 +1,55 @@
+import { Interaction, PermissionString } from "discord.js";
 import { CONFIG } from "../globals";
 import { Event } from "../interfaces";
-import { Interaction } from "discord.js";
+import { formatPermsArray } from "../utils/formatPermsArray";
 
 export const event: Event = {
     name: "interactionCreate",
-    run: async (client, interaction: Interaction) => {
+    run: async (client, intr: Interaction) => {
         // eslint-disable-next-line @typescript-eslint/strict-boolean-expressions
-        if (interaction.isButton()) {
-            const button = client.buttons.get(interaction.customId);
+        if (intr.isButton()) {
+            const button = client.buttons.get(intr.customId);
             if (button) {
-                button.run(client, interaction);
+                button.run(client, intr);
             }
         }
 
-        if (interaction.isCommand()) {
-            const slashCommand = client.slashCommands.get(interaction.commandName);
+        if (intr.isCommand()) {
+            const slashCommand = client.slashCommands.get(intr.commandName);
             if (slashCommand) {
 
                 if (slashCommand.devOnly ?? false) {
-                    if (!CONFIG.owners.includes(interaction.user.id)) {
-                        return interaction.reply({ content: "This Command may only be used by the bot's developers!", ephemeral: true } );
+                    if (!CONFIG.owners.includes(intr.user.id)) {
+                        return intr.reply({ content: "This Command may only be used by the bot's developers!", ephemeral: true } );
                     }
                 }
 
                 if (slashCommand.guildOnly ?? false) {
-                    if (!interaction.inGuild()) {
-                        return interaction.reply({ content: "This Command can only be used inside of servers!", ephemeral: true } );
+                    if (!intr.inGuild()) {
+                        return intr.reply({ content: "This Command can only be used inside of servers!", ephemeral: true } );
                     }
                 }
 
                 if (slashCommand.dmOnly ?? false) {
-                    if (interaction.inGuild()) {
-                        return interaction.reply({ content: "This Command can only be used inside of DMs!", ephemeral: true } );
+                    if (intr.inGuild()) {
+                        return intr.reply({ content: "This Command can only be used inside of DMs!", ephemeral: true } );
                     }
                 }
+                const userPerms = formatPermsArray(slashCommand.permissionsUser as PermissionString[]);
 
-                slashCommand.run(client, interaction);
+                if (!(intr.memberPermissions?.has(slashCommand.permissionsUser ?? []) ?? false)) {
+                    return intr.reply({ content: `You require! the permission(s)\n ${userPerms}\nTo use this command`, ephemeral: true } );
+
+                }
+
+                const clientPerms = formatPermsArray(slashCommand.permissionsBot as PermissionString[]);
+
+                if (!(intr.guild?.me?.permissions.has(slashCommand.permissionsBot ?? []) ?? false)) {
+                    return intr.reply({ content: `I require! the permission(s)\n ${clientPerms}\nTo use this command`, ephemeral: true } );
+
+                }
+
+                slashCommand.run(client, intr);
             }
 
         }

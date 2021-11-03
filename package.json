@@ -1,13 +1,14 @@
 {
-  "name": "ban-appeal",
+  "name": "discordjsv13-template",
   "version": "1.1.0",
-  "description": "Ban appeal bot",
+  "description": "Template bot for DiscordjsV13",
+
   "main": "bot.ts",
   "dependencies": {
     "@discordjs/rest": "^0.1.0-canary.0",
     "chalk": "^4.1.2",
-    "discord-api-types": "^0.22.0",
-    "discord.js": "^13.1.0",
+    "discord-api-types": "^0.24.0",
+    "discord.js": "^13.3.1",
     "fs": "^0.0.1-security",
     "js-yaml": "^3.14.1",
     "path": "^0.12.7",

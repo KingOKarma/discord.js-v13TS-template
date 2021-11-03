@@ -14,10 +14,15 @@ export const slashCommand: SlashCommands = {
         }
     ],
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
-    run: async (client, interaction) => {
+    run: async (client, intr) => {
 
-        const args = interaction.options.getString("saystring");
+        await intr.deferReply({ ephemeral: true });
+        const args = intr.options.getString("saystring");
 
-        return interaction.reply({ content: args } );
+        await intr.reply({
+            content: args
+        });
+
+        return intr.reply({ content: args } );
     }
 };
