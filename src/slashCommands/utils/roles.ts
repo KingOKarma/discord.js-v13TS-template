@@ -1,6 +1,7 @@
 import { GuildMember, Role } from "discord.js";
 import { SlashCommands } from "../../interfaces/slashCommands";
 import { slashCommandTypes } from "../../globals";
+import { add, remove } from "./roles/index";
 
 export const slashCommand: SlashCommands = {
     // Note aliases are optional
@@ -71,35 +72,12 @@ export const slashCommand: SlashCommands = {
         switch (intr.options.getSubcommand()) {
             case "add": {
 
-                if (member.roles.cache.has(role.id)) {
-                    return intr.reply({ content: `${member} Already has the role ${role}`, ephemeral: true });
-                }
-                try {
-                    await member.roles.add(role);
-
-                } catch (er) {
-                    return intr.reply({ content: `I was not able to give ${member} the ${role} role!`, ephemeral: true });
-
-                }
-
-                return intr.reply({ content: `${member} has been given the ${role} role!`, ephemeral: true });
-
+                return add(intr, member, role);
             }
 
             case "remove": {
-                if (!member.roles.cache.has(role.id)) {
-                    return intr.reply({ content: `${member} Doesn't has the role ${role}`, ephemeral: true });
-                }
+                return remove(intr, member, role);
 
-                try {
-                    await member.roles.remove(role);
-
-                } catch (er) {
-                    return intr.reply({ content: `I was not able to remove the role ${role} from ${member}!`, ephemeral: true });
-
-                }
-
-                return intr.reply({ content: `I have taken the role ${role} away from ${member}!`, ephemeral: true });
             }
 
             default: {
