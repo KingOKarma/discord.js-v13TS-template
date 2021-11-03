@@ -3,13 +3,10 @@
 import { Collection, MessageButton } from "discord.js";
 import Config from "./config";
 import Storage from "./storage";
-import Strings from "./strings";
 
 export const CONFIG = Config.getConfig();
 
 export const STORAGE = Storage.getConfig();
-
-export const STRINGS = Strings.getConfig();
 
 export const commands = new Collection;
 

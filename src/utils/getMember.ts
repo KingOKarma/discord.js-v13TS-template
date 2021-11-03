@@ -7,8 +7,8 @@ import { Guild, GuildMember } from "discord.js";
 *  @returns GuildMember
  */
 export async function getMember(uid: string | null, guild: Guild | null): Promise<GuildMember | null> {
-    if (uid === null) return null;
-    if (guild === null) return null;
+    if (typeof uid !== "string") return null;
+    if (!(guild instanceof Guild)) return null;
 
     let uidParsed = uid;
 

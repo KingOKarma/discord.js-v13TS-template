@@ -1,4 +1,4 @@
-import { CONFIG, STRINGS } from "../globals";
+import { CONFIG } from "../globals";
 import { Event } from "../interfaces/index";
 import { REST } from "@discordjs/rest";
 import { Routes } from "discord-api-types/v9";
@@ -11,14 +11,13 @@ export const event: Event = {
     run: async (client) => {
         console.log(`${chalk.green("[INFO]")} ${client.user?.tag} is online!\n`);
 
-        console.log(STRINGS.info.ready);
         if (!client.application?.owner) await client.application?.fetch();
 
         if (client.application === null) {
             throw new Error("Client Did not register in time, please try again");
         }
         // eslint-disable-next-line @typescript-eslint/no-unused-vars
-        const commands = client.slashCommands.map(({ run, devOnly, guildOnly, dmOnly, ...data }) => data);
+        const commands = client.slashCommands.map(({ run, devOnly, guildOnly, dmOnly, permissionsBot, permissionsUser, ...data }) => data );
 
         console.log(`${chalk.cyan("[LIST]")} ${commands.map((c) => c.name)}\n`);
 
@@ -32,11 +31,11 @@ export const event: Event = {
 
                 await guild.commands.set(commands);
                 console.log(`${chalk.green("[INFO]")} Set Commands for Dev Server\nCommands List:`
-                + `\n ${(await guild.commands.fetch()).map((c) => c.name)}\n`);
+                + `\n ${(await guild.commands.fetch()).map((c) => c.name).join(", ")}\n`);
             } else {
                 await client.application.commands.set(commands);
                 console.log(`${chalk.green("[INFO]")} Set Commands for Production\nCommands List:`
-                + `\n ${(await client.application.commands.fetch()).map((c) => c.name)}\n`);
+                + `\n ${(await client.application.commands.fetch()).map((c) => c.name).join(", ")}\n`);
             }
 
         } catch (error) {

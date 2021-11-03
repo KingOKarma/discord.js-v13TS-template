@@ -1,3 +1,4 @@
+import { GuildMember, Role } from "discord.js";
 import { SlashCommands } from "../../interfaces/slashCommands";
 import { slashCommandTypes } from "../../globals";
 
@@ -8,33 +9,103 @@ export const slashCommand: SlashCommands = {
     name: "roles",
     options: [
         {
-            choices: [
+            description: "Adds a role onto a User",
+            name: "add",
+            options: [
                 {
-                    name: "add",
-                    value: "add"
+                    description: "Who will you be adding a role to?",
+                    name: "user",
+                    required: true,
+                    type: slashCommandTypes.user
                 },
                 {
-                    name: "remove",
-                    value: "remove"
-                },
-                {
-                    name: "info",
-                    value: "info"
-                },
-                {
-                    name: "list",
-                    value: "list"
+                    description: "What role are you adding?",
+                    name: "role",
+                    required: true,
+                    type: slashCommandTypes.role
                 }
             ],
-            description: "What will I be saying",
-            name: "sub-command",
-            required: true,
-            type: slashCommandTypes.string
+            type: slashCommandTypes.subCommand
+        },
+        {
+            description: "Who will you be removing a role from?",
+            name: "remove",
+            options: [
+                {
+                    description: "What will I be saying",
+                    name: "user",
+                    required: true,
+                    type: slashCommandTypes.user
+                },
+                {
+                    description: "What role are you removing?",
+                    name: "role",
+                    required: true,
+                    type: slashCommandTypes.role
+                }
+            ],
+            type: slashCommandTypes.subCommand
         }
     ],
+    permissionsBot: ["MANAGE_ROLES"],
+    permissionsUser: ["MANAGE_ROLES"],
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
-    run: async (client, interaction) => {
+    run: async (client, intr) => {
 
-        return interaction.reply({ content: interaction.options.data[0].value?.toLocaleString() } );
+        const { guild } = intr;
+        if (guild === null) return intr.reply({ content: "There was an error when executing the command", ephemeral: true });
+
+        const user = intr.options.get("user");
+        if (user === null) return intr.reply({ content: "There was an error when executing the command", ephemeral: true });
+
+
+        const commandRole = intr.options.get("role");
+        if (commandRole === null) return intr.reply({ content: "There was an error when executing the command", ephemeral: true });
+
+        const { member } = user;
+        if (!(member instanceof GuildMember)) return intr.reply({ content: "There was an error when executing the command", ephemeral: true });
+
+        const { role } = commandRole;
+        if (!(role instanceof Role)) return intr.reply({ content: "There was an error when executing the command", ephemeral: true });
+
+        switch (intr.options.getSubcommand()) {
+            case "add": {
+
+                if (member.roles.cache.has(role.id)) {
+                    return intr.reply({ content: `${member} Already has the role ${role}`, ephemeral: true });
+                }
+                try {
+                    await member.roles.add(role);
+
+                } catch (er) {
+                    return intr.reply({ content: `I was not able to give ${member} the ${role} role!`, ephemeral: true });
+
+                }
+
+                return intr.reply({ content: `${member} has been given the ${role} role!`, ephemeral: true });
+
+            }
+
+            case "remove": {
+                if (!member.roles.cache.has(role.id)) {
+                    return intr.reply({ content: `${member} Doesn't has the role ${role}`, ephemeral: true });
+                }
+
+                try {
+                    await member.roles.remove(role);
+
+                } catch (er) {
+                    return intr.reply({ content: `I was not able to remove the role ${role} from ${member}!`, ephemeral: true });
+
+                }
+
+                return intr.reply({ content: `I have taken the role ${role} away from ${member}!`, ephemeral: true });
+            }
+
+            default: {
+                return intr.reply({ content: "There was an error when executing the command", ephemeral: true });
+            }
+        }
+
     }
 };
