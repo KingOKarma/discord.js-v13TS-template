@@ -5,6 +5,8 @@ import Client from "../client/client";
 type Run = (client: Client, message: Message, args: string[]) => void;
 
 export default interface Command {
+    cooldown?: number;
+    cooldownResponse?: string;
     name: string;
     description: string;
     devonly?: boolean;

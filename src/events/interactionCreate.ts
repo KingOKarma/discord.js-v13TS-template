@@ -1,4 +1,5 @@
 import { Interaction, PermissionString } from "discord.js";
+import ms from "ms";
 import { CONFIG } from "../globals";
 import { Event } from "../interfaces";
 import { formatPermsArray } from "../utils/formatPermsArray";
@@ -38,15 +39,42 @@ export const event: Event = {
                 const userPerms = formatPermsArray(slashCommand.permissionsUser as PermissionString[]);
 
                 if (!(intr.memberPermissions?.has(slashCommand.permissionsUser ?? []) ?? false)) {
-                    return intr.reply({ content: `You require! the permission(s)\n ${userPerms}\nTo use this command`, ephemeral: true } );
+                    return intr.reply({ content: `You require! the permission(s)\n> ${userPerms}\nTo use this command`, ephemeral: true } );
 
                 }
 
                 const clientPerms = formatPermsArray(slashCommand.permissionsBot as PermissionString[]);
 
                 if (!(intr.guild?.me?.permissions.has(slashCommand.permissionsBot ?? []) ?? false)) {
-                    return intr.reply({ content: `I require! the permission(s)\n ${clientPerms}\nTo use this command`, ephemeral: true } );
+                    return intr.reply({ content: `I require! the permission(s)\n> ${clientPerms}\nTo use this command`, ephemeral: true } );
 
+                }
+
+                if (slashCommand.cooldown !== undefined) {
+                    const cooldown = client.cooldowns.get(`${slashCommand.name}/${intr.user.id}`);
+                    if (cooldown) {
+                        const timePassed = Date.now() - cooldown.timeSet;
+                        const timeLeft = slashCommand.cooldown * 1000 - timePassed;
+    
+                        let response = `${slashCommand.cooldownResponse ?? `Hey you're going too fast, please wait another ${ms(timeLeft)}`}`;
+    
+                        if (response.includes("{time}")) {
+                            const replace = new RegExp("{time}", "g");
+                            response = response.replace(replace, ms(timeLeft));
+                        }
+    
+                        return intr.reply({content: response, ephemeral: true });
+                    }
+                    client.cooldowns.set(`${slashCommand.name}/${intr.user.id}`, {
+                        command: slashCommand.name,
+                        cooldownTime: slashCommand.cooldown,
+                        timeSet: Date.now(),
+                        userID: intr.user.id
+                    });
+    
+                    setTimeout(() => {
+                        client.cooldowns.delete(`${slashCommand.name}/${intr.user.id}`);
+                    }, slashCommand.cooldown * 1000);
                 }
 
                 slashCommand.run(client, intr);

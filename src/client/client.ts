@@ -6,6 +6,7 @@ import Buttons from "../interfaces/buttons";
 import { CONFIG } from "../globals";
 import { SlashCommands } from "../interfaces/slashCommands";
 import path from "path";
+import { Cooldowns } from "../interfaces/cooldown";
 
 class ExtendedClient extends Client {
     public commands: Collection<string, Command> = new Collection();
@@ -13,6 +14,7 @@ class ExtendedClient extends Client {
     public aliases: Collection<string, Command> = new Collection();
     public buttons: Collection<string, Buttons> = new Collection();
     public slashCommands: Collection<string, SlashCommands> = new Collection();
+    public cooldowns: Collection<string, Cooldowns> = new Collection();
 
     public async init(): Promise<void> {
         await this.login(CONFIG.token);
@@ -77,7 +79,13 @@ class ExtendedClient extends Client {
     }
 
     public async commandFailed(msg: Message | CommandInteraction): Promise<void | Message<boolean>> {
-        return msg.reply({ content: "There was an error when executing the command", ephemeral: true });
+        if (msg instanceof Message) {
+            return msg.reply({ content: "There was an error when executing the command" });
+
+        } else {
+            return msg.reply({ content: "There was an error when executing the command", ephemeral: true });
+
+        }
 
     }
 }

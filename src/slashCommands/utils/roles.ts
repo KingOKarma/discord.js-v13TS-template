@@ -4,7 +4,8 @@ import { slashCommandTypes } from "../../globals";
 import { add, remove } from "./roles/index";
 
 export const slashCommand: SlashCommands = {
-    // Note aliases are optional
+    cooldown: 5,
+    cooldownResponse: "Hey Wait! You can manage roles again in another {time}",
     description: "Interact with the roles of a server",
     guildOnly: true,
     name: "roles",
