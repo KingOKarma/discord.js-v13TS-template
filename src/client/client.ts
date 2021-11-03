@@ -1,5 +1,5 @@
 /* eslint-disable @typescript-eslint/member-ordering */
-import { Client, Collection } from "discord.js";
+import { Client, Collection, CommandInteraction, Message } from "discord.js";
 import { Command, Event } from "../interfaces/index";
 import fs, { readdirSync } from "fs";
 import Buttons from "../interfaces/buttons";
@@ -73,6 +73,11 @@ class ExtendedClient extends Client {
             }
         });
 
+
+    }
+
+    public async commandFailed(msg: Message | CommandInteraction): Promise<void | Message<boolean>> {
+        return msg.reply({ content: "There was an error when executing the command", ephemeral: true });
 
     }
 }

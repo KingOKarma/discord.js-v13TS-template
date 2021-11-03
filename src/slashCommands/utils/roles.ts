@@ -53,20 +53,20 @@ export const slashCommand: SlashCommands = {
     run: async (client, intr) => {
 
         const { guild } = intr;
-        if (guild === null) return intr.reply({ content: "There was an error when executing the command", ephemeral: true });
+        if (guild === null) return client.commandFailed(intr);
 
         const user = intr.options.get("user");
-        if (user === null) return intr.reply({ content: "There was an error when executing the command", ephemeral: true });
+        if (user === null) return client.commandFailed(intr);
 
 
         const commandRole = intr.options.get("role");
-        if (commandRole === null) return intr.reply({ content: "There was an error when executing the command", ephemeral: true });
+        if (commandRole === null) return client.commandFailed(intr);
 
         const { member } = user;
-        if (!(member instanceof GuildMember)) return intr.reply({ content: "There was an error when executing the command", ephemeral: true });
+        if (!(member instanceof GuildMember)) return client.commandFailed(intr);
 
         const { role } = commandRole;
-        if (!(role instanceof Role)) return intr.reply({ content: "There was an error when executing the command", ephemeral: true });
+        if (!(role instanceof Role)) return client.commandFailed(intr);
 
         switch (intr.options.getSubcommand()) {
             case "add": {
