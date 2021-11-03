@@ -1,5 +1,4 @@
 import { Guild, GuildChannel, ThreadChannel } from "discord.js";
-
 /**
  * Used to get a channel using fetch
  * @param {string} cid The channel's ID

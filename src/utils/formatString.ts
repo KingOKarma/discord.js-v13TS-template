@@ -1,4 +1,3 @@
-
 /**
  * Used to format strings
  * @param {string} message string to convert
