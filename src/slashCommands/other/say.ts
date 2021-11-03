@@ -16,12 +16,7 @@ export const slashCommand: SlashCommands = {
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
     run: async (client, intr) => {
 
-        await intr.deferReply({ ephemeral: true });
         const args = intr.options.getString("saystring");
-
-        await intr.reply({
-            content: args
-        });
 
         return intr.reply({ content: args } );
     }

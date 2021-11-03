@@ -1,6 +1,6 @@
+import { Message, PermissionString } from "discord.js";
 import { CONFIG } from "../globals";
 import { Event } from "../interfaces/event";
-import { Message, PermissionString } from "discord.js";
 import { formatPermsArray } from "../utils/formatPermsArray";
 import ms from "ms";
 
@@ -40,14 +40,14 @@ export const event: Event = {
 
             const userPerms = formatPermsArray(command.permissionsUser as PermissionString[]);
 
-            if (!(msg.member?.permissions?.has(command.permissionsUser ?? []) ?? false)) {
+            if (!(msg.member?.permissions.has(command.permissionsUser ?? []) ?? false)) {
                 return msg.reply({ content: `You require! the permission(s)\n> ${userPerms}\nTo use this command` });
 
             }
 
             const clientPerms = formatPermsArray(command.permissionsBot as PermissionString[]);
 
-            if (!(msg.guild?.me?.permissions.has(command.permissionsBot ?? []) ?? false)) {
+            if (!(msg.guild.me?.permissions.has(command.permissionsBot ?? []) ?? false)) {
                 return msg.reply({ content: `I require! the permission(s)\n> ${clientPerms}\nTo use this command` });
 
             }
@@ -85,4 +85,4 @@ export const event: Event = {
 
         }
     }
-}
+};

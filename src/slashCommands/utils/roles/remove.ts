@@ -1,6 +1,6 @@
 import { CommandInteraction, GuildMember, Role } from "discord.js";
 
-export async function remove(intr: CommandInteraction, member: GuildMember, role: Role) {
+export async function remove(intr: CommandInteraction, member: GuildMember, role: Role): Promise<void> {
 
     if (!member.roles.cache.has(role.id)) {
         return intr.reply({ content: `${member} Doesn't has the role ${role}`, ephemeral: true });
