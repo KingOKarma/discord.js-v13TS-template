@@ -5,6 +5,7 @@ import fs, { readdirSync } from "fs";
 import Buttons from "../interfaces/buttons";
 import { CONFIG } from "../globals";
 import { Cooldowns } from "../interfaces/cooldown";
+import SelectMenus from "../interfaces/selectMenus";
 import { SlashCommands } from "../interfaces/slashCommands";
 import path from "path";
 
@@ -15,6 +16,7 @@ class ExtendedClient extends Client {
     public buttons: Collection<string, Buttons> = new Collection();
     public slashCommands: Collection<string, SlashCommands> = new Collection();
     public cooldowns: Collection<string, Cooldowns> = new Collection();
+    public selectMenus: Collection<string, SelectMenus> = new Collection();
 
     public async init(): Promise<void> {
         await this.login(CONFIG.token);
@@ -50,7 +52,7 @@ class ExtendedClient extends Client {
 
 
         /* Buttons */
-        const buttonsPath = path.join(__dirname, "..", "buttons");
+        const buttonsPath = path.join(__dirname, "..", "interactions", "buttons");
         fs.readdirSync(buttonsPath).forEach((dir) => {
             const buttonFiles = readdirSync(`${buttonsPath}/${dir}`).filter((file) => file.endsWith(".js"));
 
@@ -62,8 +64,21 @@ class ExtendedClient extends Client {
             }
         });
 
+        /* Select Menus */
+        const menuPath = path.join(__dirname, "..", "interactions", "selectMenus");
+        fs.readdirSync(menuPath).forEach((dir) => {
+            const menuFiles = readdirSync(`${menuPath}/${dir}`).filter((file) => file.endsWith(".js"));
+
+            for (const file of menuFiles) {
+                // eslint-disable-next-line @typescript-eslint/no-var-requires
+                const { menu } = require(`${menuPath}/${dir}/${file}`);
+                this.selectMenus.set(menu.name, menu);
+
+            }
+        });
+
         /* Slash Commands */
-        const slashPath = path.join(__dirname, "..", "slashCommands");
+        const slashPath = path.join(__dirname, "..", "interactions", "slashCommands");
         fs.readdirSync(slashPath).forEach(async (dir) => {
             const slashCommmands = readdirSync(`${slashPath}/${dir}`).filter((file) => file.endsWith(".js"));
 

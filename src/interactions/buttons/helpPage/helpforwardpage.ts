@@ -1,11 +1,11 @@
 import { ColorResolvable, Message, MessageActionRow, MessageButton, MessageEmbed } from "discord.js";
-import Buttons from "../../interfaces/buttons";
-import { arrayPage } from "../../utils/arrayPage";
-import { capitalize } from "../../utils/capitalize";
-import { deleteButton } from "../../globals";
+import Buttons from "../../../interfaces/buttons";
+import { arrayPage } from "../../../utils/arrayPage";
+import { capitalize } from "../../../utils/capitalize";
+import { deleteButton } from "../../../globals";
 
 export const buttons: Buttons = {
-    name: "helpfirstpage",
+    name: "helpforwardpage",
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
     run: async (client, interaction) => {
         const msg = interaction.message as Message;
@@ -13,7 +13,9 @@ export const buttons: Buttons = {
 
         if (component === null) return;
 
-        const commands = arrayPage([...client.commands.values()], 4, 1);
+        const { label } = new MessageButton(component);
+
+        const commands = arrayPage([...client.commands.values()], 4, Number(label));
         const colour = msg.guild?.me?.displayColor as ColorResolvable;
 
         let finalPage = 1;
@@ -28,11 +30,12 @@ export const buttons: Buttons = {
         }
         finalPage -= 1;
 
+
         const embed = new MessageEmbed()
             .setTitle(`${client.user?.tag}'s ${client.commands.size} Commands`)
             .setTimestamp()
             .setColor(colour)
-            .setFooter(`Page 1 of ${finalPage} pages`);
+            .setFooter(`Page ${label} of ${finalPage} pages`);
         if (commands.length === 0) {
             embed.addField("Empty", "> This page is emtpy!");
         } else {
@@ -64,17 +67,19 @@ export const buttons: Buttons = {
         const left = new MessageButton()
             .setCustomId("helpbackpage")
             .setEmoji("◀️")
-            .setLabel("0")
+            .setLabel((Number(label) - 1).toString())
             .setStyle("PRIMARY");
-        left.setDisabled(true);
+
+        if (Number(label) - 1 === 0) left.setDisabled(true);
+
 
         const right = new MessageButton()
             .setCustomId("helpforwardpage")
             .setEmoji("▶️")
-            .setLabel("2")
+            .setLabel((Number(label) + 1).toString())
             .setStyle("PRIMARY");
-        if (finalPage === 2) right.setDisabled(true);
 
+        if (Number(label) === finalPage) right.setDisabled(true);
 
         if (commands.length === 0) {
             right.setDisabled(true);

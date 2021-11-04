@@ -1,8 +1,8 @@
 import { Interaction, PermissionString } from "discord.js";
-import ms from "ms";
 import { CONFIG } from "../globals";
 import { Event } from "../interfaces";
 import { formatPermsArray } from "../utils/formatPermsArray";
+import ms from "ms";
 
 export const event: Event = {
     name: "interactionCreate",
@@ -12,6 +12,13 @@ export const event: Event = {
             const button = client.buttons.get(intr.customId);
             if (button) {
                 button.run(client, intr);
+            }
+        }
+
+        if (intr.isSelectMenu()) {
+            const menu = client.selectMenus.get(intr.customId);
+            if (menu) {
+                menu.run(client, intr);
             }
         }
 
@@ -55,15 +62,15 @@ export const event: Event = {
                     if (cooldown) {
                         const timePassed = Date.now() - cooldown.timeSet;
                         const timeLeft = slashCommand.cooldown * 1000 - timePassed;
-    
+
                         let response = `${slashCommand.cooldownResponse ?? `Hey you're going too fast, please wait another ${ms(timeLeft)}`}`;
-    
+
                         if (response.includes("{time}")) {
                             const replace = new RegExp("{time}", "g");
                             response = response.replace(replace, ms(timeLeft));
                         }
-    
-                        return intr.reply({content: response, ephemeral: true });
+
+                        return intr.reply({ content: response, ephemeral: true });
                     }
                     client.cooldowns.set(`${slashCommand.name}/${intr.user.id}`, {
                         command: slashCommand.name,
@@ -71,7 +78,7 @@ export const event: Event = {
                         timeSet: Date.now(),
                         userID: intr.user.id
                     });
-    
+
                     setTimeout(() => {
                         client.cooldowns.delete(`${slashCommand.name}/${intr.user.id}`);
                     }, slashCommand.cooldown * 1000);

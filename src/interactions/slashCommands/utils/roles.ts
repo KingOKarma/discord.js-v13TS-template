@@ -1,7 +1,7 @@
 import { GuildMember, Role } from "discord.js";
 import { add, remove } from "./roles/index";
-import { SlashCommands } from "../../interfaces/slashCommands";
-import { slashCommandTypes } from "../../globals";
+import { SlashCommands } from "../../../interfaces/slashCommands";
+import { slashCommandTypes } from "../../../globals";
 
 export const slashCommand: SlashCommands = {
     cooldown: 5,

@@ -1,4 +1,4 @@
-import Buttons from "../../interfaces/buttons";
+import Buttons from "../../../interfaces/buttons";
 import { Message } from "discord.js";
 
 export const buttons: Buttons = {

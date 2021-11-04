@@ -1,5 +1,5 @@
-import { SlashCommands } from "../../interfaces/slashCommands";
-import { slashCommandTypes } from "../../globals";
+import { SlashCommands } from "../../../interfaces/slashCommands";
+import { slashCommandTypes } from "../../../globals";
 
 export const slashCommand: SlashCommands = {
     // Note aliases are optional

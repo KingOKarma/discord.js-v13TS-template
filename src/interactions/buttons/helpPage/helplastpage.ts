@@ -1,8 +1,8 @@
 import { ColorResolvable, Message, MessageActionRow, MessageButton, MessageEmbed } from "discord.js";
-import Buttons from "../../interfaces/buttons";
-import { arrayPage } from "../../utils/arrayPage";
-import { capitalize } from "../../utils/capitalize";
-import { deleteButton } from "../../globals";
+import Buttons from "../../../interfaces/buttons";
+import { arrayPage } from "../../../utils/arrayPage";
+import { capitalize } from "../../../utils/capitalize";
+import { deleteButton } from "../../../globals";
 
 export const buttons: Buttons = {
     name: "helplastpage",
