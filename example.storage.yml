@@ -1,0 +1,4 @@
+ids:
+  categoryID: "CategoryChannelID"
+  logID: "LogChannelID"
+  staffID: "StaffRoleID"

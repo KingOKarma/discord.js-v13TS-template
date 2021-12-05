@@ -1,9 +1,8 @@
 {
-  "name": "discordjsv13-template",
+  "name": "discord.js-v13ts-template",
   "version": "1.1.0",
-  "description": "Template bot for DiscordjsV13",
-
-  "main": "bot.ts",
+  "description": "A template for Discord.js v13 written in Typescript",
+  "main": "./build/bot.ts",
   "dependencies": {
     "@discordjs/rest": "^0.1.0-canary.0",
     "chalk": "^4.1.2",
@@ -24,15 +23,17 @@
     "eslint": "^7.29.0"
   },
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "tsc && node ./build/bot.js"
+    "start": "tsc && node ./build/bot.js",
+    "build": "tsc",
+    "lint": "eslint --ext .ts,.js ./src/",
+    "lint:fix": "eslint --ext .ts,.js ./src/ --fix"
   },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/KingOKarma/typescript-discord-bot-template.git"
   },
   "author": "KingOKarma",
-  "license": "ISC",
+  "license": "Apache-2.0",
   "bugs": {
     "url": "https://github.com/KingOKarma/typescript-discord-bot-template/issues"
   },

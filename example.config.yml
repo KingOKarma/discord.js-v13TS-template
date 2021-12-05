@@ -1,0 +1,13 @@
+# Make sure the id(s) are seperated by commas (,)
+owners: ["DISCORD_USER_ID"]
+
+# Development slash command environment
+devEnv:
+    devServer: "DEV_SERVER_ID"
+    isDev: true
+
+# The prefix for all non-slash commands
+prefix: "PREFIX"
+
+# Token Example: NzU4Mzg1STh3MgS5DHCsHsVY.X2uSag.71AkvJZaVe3R-s5Ay3GatchEdGe
+token: "TOKEN"
