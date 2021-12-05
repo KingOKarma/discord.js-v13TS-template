@@ -1,40 +1,31 @@
-# discord.js-v13TS-template
-A template for discord.js v13 written in typescript
+<p align="center">
+    <img src="./.assets/banner.png" width="60%">
+</p>
 
 ---
-### Setup
 
-Requires nodejs v16 or above
+## Purpose
+This projects allow for the quickstart of development when creating a Typescript Discord Bot, it handles linting configuraiton & basic Typescript setup.
 
-- Rename `example.config.yml` to `config.yml` and put in the parameters
-- You may do the same with `example.storage.yml` but that's just there for example on if you wanted stored manipulatable data during runtime.
+## Requirements
+- NodeJS v16.x or above ([Download](https://nodejs.org/en/))
+- Node Package Manager (Bundled with Node)
 
-once params have been filled in run:
+## Setup & Configuration
 
+1. Install packages with `npm ci` or `yarn`
+2. Rename `example.config.yml` to `config.yml` and enter required fields.`
+3. Run the project with `npm run start` or `yarn run start`
 
-```
-# To install packages: 
-$ npm i
+## Project Notes
+- If you want to add a new value to `config.yml` or `storage.yml`, also add it to `config.ts`.
 
-# Running the bot with either yarn or npm
-$ yarn start 
-# Or
-$ npm start
- 
-```
+- To create a new command, simply use the format shown in existing commands.
+
+- ESLint is configured & provided as a dependancy. To run ESLint, you can use the script with `npm run lint` or `yarn run lint`, if you want to fix all auto-fixable problems use `npm run lint:fix` or `yarn run lint:fix`
 
 ---
-### Notes
-- All notes are provided to help not spoonfeed
-
-- If you want to add a new value to the `config.yml` make sure to add it to `config.ts` too (same case for `storage.yml`)
-
-- Adding new commands is pretty easy just add a new file and copy the template, easy right?
-
-- ESlint has been added in here for extra help to help you style your code to be better, ~~make sure the eslint plugin is install on your VScode first!~~ (you can press `ctrl + shift + p` then click `ESlint: Fix all auto-fixable Problems` for some quick savers) or by running `eslint "**"`
----
-
-###### Help support my personal bot! written in typescript too!
+##### Help support my personal bot written in typescript too!
 - [Support Server](https://support.bucketbot.dev)
 - [Invite](https://invite.bucketbot.dev)
-- [Github](https://github.com/KingOKarma/KFCBot)
+- [GitHub](https://github.com/KingOKarma/KFCBot)
