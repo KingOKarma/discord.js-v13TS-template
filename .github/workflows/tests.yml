@@ -1,0 +1,51 @@
+name: Tests
+
+on:
+  pull_request:
+    types: [opened, synchronize, reopened]
+  push: 
+    branches: [ main ]
+  workflow_dispatch:
+  
+jobs:
+  Lint:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        node-version: [ 16.x ]
+
+    steps:
+    - name: Checkout Repository
+      uses: actions/checkout@v2.3.4
+
+    - name: Use Node.js ${{ matrix.node-version }}
+      uses: actions/setup-node@v2.4.1
+      with:
+        node-version: ${{ matrix.node-version }}
+
+    - name: Install Dependancies
+      run: npm ci
+
+    - name: Run Lint Script
+      run: npm run lint
+
+  Build:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        node-version: [ 16.x ]
+
+    steps:
+    - name: Checkout Repository
+      uses: actions/checkout@v2.3.4
+
+    - name: Use Node.js ${{ matrix.node-version }}
+      uses: actions/setup-node@v2.4.1
+      with:
+        node-version: ${{ matrix.node-version }}
+
+    - name: Install Dependancies
+      run: npm ci
+
+    - name: Run build Script
+      run: npm run build
