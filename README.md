@@ -14,7 +14,7 @@ This projects allow for the quickstart of development when creating a Typescript
 ## Setup & Configuration
 
 1. Install packages with `npm ci` or `yarn`
-2. Rename `example.config.yml` to `config.yml` and enter required fields.`
+2. Rename `example.config.yml` to `config.yml` and enter required fields.
 3. Run the project with `npm run start` or `yarn run start`
 
 ## Project Notes
